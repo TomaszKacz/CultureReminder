@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "565829030283",
+    "project_id": "culture-reminder-7fb9c",
+    "storage_bucket": "culture-reminder-7fb9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565829030283:android:6ae7d4a91996cd8f521f8e",
+        "android_client_info": {
+          "package_name": "com.example.culture_reminder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZE-IBsQ2Ccv2mWvrqg9K3w-pUrG4g8cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
