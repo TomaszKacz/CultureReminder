@@ -1,10 +1,12 @@
 package com.example.culture_reminder;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.activity.ComponentActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +14,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.culture_reminder.adapters.MovieRecyclerView;
 import com.example.culture_reminder.adapters.OnMovieListener;
 import com.example.culture_reminder.models.MovieModel;
@@ -33,7 +36,6 @@ import retrofit2.Response;
 public class MovieListActivity extends ComponentActivity implements OnMovieListener {
 
 
-
     private RecyclerView recyclerView;
     private MovieRecyclerView movieRecyclerAdapter;
 
@@ -46,7 +48,7 @@ public class MovieListActivity extends ComponentActivity implements OnMovieListe
     private TextView textView;
     private FirebaseUser user;
     private Button btn;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +66,11 @@ public class MovieListActivity extends ComponentActivity implements OnMovieListe
         // } else {
         //     textView.setText(user.getEmail());
         // }
-
+        toolbar = findViewById(R.id.toolbar);
         movieListViewModel =new ViewModelProvider(this).get(MovieListViewModel.class);
         recyclerView = findViewById(R.id.recyclerView);
+
+        //SetupSearchView();
 
 
         ConfigureRecyclerView();
