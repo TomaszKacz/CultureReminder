@@ -58,7 +58,7 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
         setContentView(R.layout.activity_main);
 
         auth = FirebaseAuth.getInstance();
-//        button = findViewById(R.id.logout);
+        button = findViewById(R.id.logout);
         user = auth.getCurrentUser();
 
         // Uncomment the following lines if you want to handle null user case
@@ -88,15 +88,15 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
         ConfigureRecyclerView();
         ObserveAnyChange();
 
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FirebaseAuth.getInstance().signOut();
-//                Intent intent = new Intent(getApplicationContext(), Login.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                finish();
+            }
+      });
     }
 
 
