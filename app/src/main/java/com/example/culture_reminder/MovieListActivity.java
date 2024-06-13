@@ -140,6 +140,10 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
     @Override
     public void onMovieClick(int position) {
 
+        Intent intent = new Intent(this, MovieDetails.class);
+        intent.putExtra("movie", movieRecyclerAdapter.getSelectedMovie(position));
+        startActivity(intent);
+
     }
 
     @Override

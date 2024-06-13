@@ -54,8 +54,8 @@
                 android:layout_weight="10"
                 android:textColor="#000000"
                 android:textSize="14sp"
-                android:text="Duration"
-                android:id="@+id/movie_duration"
+                android:text="org_lang"
+                android:id="@+id/org_lang"
                 android:layout_gravity="center"/>
         </LinearLayout>
         </LinearLayout>

@@ -12,7 +12,7 @@ import com.example.culture_reminder.R;
 
 public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    TextView title, release_date, duration;
+    TextView title, release_date, org_lang;
     ImageView imageView;
     RatingBar ratingBar;
 
@@ -23,7 +23,7 @@ public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnC
         this.onMovieListener = onMovieListener;
         title = itemView.findViewById(R.id.movie_title);
         release_date = itemView.findViewById(R.id.movie_category);
-        duration = itemView.findViewById(R.id.movie_duration);
+        org_lang = itemView.findViewById(R.id.org_lang);
 
         imageView = itemView.findViewById(R.id.movie_img);
         ratingBar = itemView.findViewById(R.id.rating_bar);

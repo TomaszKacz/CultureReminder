@@ -34,7 +34,7 @@ public class MovieRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
         ((MovieViewHolder)holder).title.setText(mMovies.get(i).getTitle());
         ((MovieViewHolder)holder).release_date.setText(mMovies.get(i).getRelease_date());
-        ((MovieViewHolder)holder).duration.setText(String.valueOf(mMovies.get(i).getRuntime()));
+        ((MovieViewHolder)holder).org_lang.setText(String.valueOf(mMovies.get(i).getOriginal_language()));
 
         ((MovieViewHolder)holder).ratingBar.setRating((mMovies.get(i).getVote_average())/2) ;
 
@@ -52,5 +52,14 @@ public class MovieRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void setmMovies(List<MovieModel> mMovies) {
         this.mMovies = mMovies;
         notifyDataSetChanged();
+    }
+
+    public MovieModel getSelectedMovie(int position){
+        if(mMovies!= null){
+            if(mMovies.size()>0){
+                return mMovies.get(position);
+            }
+        }
+        return null;
     }
 }
