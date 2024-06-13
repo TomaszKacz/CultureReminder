@@ -97,6 +97,7 @@ public class MovieApiClient {
                 {
                     List<MovieModel> currentMovies = mMovies.getValue();
                     currentMovies.addAll(list);
+                    mMovies.postValue(currentMovies);
                 }
 
                 }else {

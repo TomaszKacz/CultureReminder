@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.activity.ComponentActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieListActivity extends ComponentActivity implements OnMovieListener {
+public class MovieListActivity extends AppCompatActivity implements OnMovieListener {
 
 
     private RecyclerView recyclerView;
@@ -48,9 +51,9 @@ public class MovieListActivity extends ComponentActivity implements OnMovieListe
     private TextView textView;
     private FirebaseUser user;
     private Button btn;
-    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -66,7 +69,16 @@ public class MovieListActivity extends ComponentActivity implements OnMovieListe
         // } else {
         //     textView.setText(user.getEmail());
         // }
-        toolbar = findViewById(R.id.toolbar);
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        SetupSearchView();
+
+
+
         movieListViewModel =new ViewModelProvider(this).get(MovieListViewModel.class);
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -75,7 +87,6 @@ public class MovieListActivity extends ComponentActivity implements OnMovieListe
 
         ConfigureRecyclerView();
         ObserveAnyChange();
-        searchMovieApi("fast",1);
 
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -104,14 +115,26 @@ public class MovieListActivity extends ComponentActivity implements OnMovieListe
             }
         });
     }
-    private void searchMovieApi(String query, int pageNumber){
-        movieListViewModel.searchMovieApi(query,pageNumber);
-    }
+
 
     private void ConfigureRecyclerView(){
         movieRecyclerAdapter = new MovieRecyclerView(this);
         recyclerView.setAdapter(movieRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (!recyclerView.canScrollVertically(1)){
+                    movieListViewModel.searchNextpage();
+                }
+            }
+        });
     }
 
     @Override
@@ -121,6 +144,25 @@ public class MovieListActivity extends ComponentActivity implements OnMovieListe
 
     @Override
     public void onCategoryClick(String category) {
+
+    }
+    private void SetupSearchView(){
+        final SearchView searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                movieListViewModel.searchMovieApi(
+                        query,
+                        1
+                );
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
     }
 
