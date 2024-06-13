@@ -11,18 +11,20 @@ public class MovieModel implements Parcelable {
     private String title;
     private String poster_path;
     private String release_date;
-    private int id;
+    private int movie_id;
     private float vote_average;
     private String movie_overview;
+    private int runtime;
 
 
-    public MovieModel(String title, String posterPath, String releaseDate, int id, float voteAverage, String movieOverview) {
+    public MovieModel(String title, String poster_path, String release_date, int movie_id, float voteAverage, String movieOverview, int runtime) {
         this.title = title;
-        poster_path = posterPath;
-        release_date = releaseDate;
-        this.id = id;
-        vote_average = voteAverage;
-        movie_overview = movieOverview;
+        this.poster_path = poster_path;
+        this.release_date = release_date;
+        this.movie_id = movie_id;
+        this.vote_average = voteAverage;
+        this.movie_overview = movieOverview;
+        this.runtime = runtime;
     }
 
 
@@ -30,9 +32,10 @@ public class MovieModel implements Parcelable {
         title = in.readString();
         poster_path = in.readString();
         release_date = in.readString();
-        id = in.readInt();
+        movie_id = in.readInt();
         vote_average = in.readFloat();
         movie_overview = in.readString();
+        runtime = in.readInt();
     }
 
     public static final Creator<MovieModel> CREATOR = new Creator<MovieModel>() {
@@ -60,7 +63,7 @@ public class MovieModel implements Parcelable {
     }
 
     public int getId() {
-        return id;
+        return movie_id;
     }
 
     public float getVote_average() {
@@ -69,6 +72,11 @@ public class MovieModel implements Parcelable {
 
     public String getMovie_overview() {
         return movie_overview;
+    }
+
+
+    public int getRuntime() {
+        return runtime;
     }
 
     @Override
@@ -81,7 +89,7 @@ public class MovieModel implements Parcelable {
         dest.writeString(title);
         dest.writeString(poster_path);
         dest.writeString(release_date);
-        dest.writeInt(id);
+        dest.writeInt(movie_id);
         dest.writeFloat(vote_average);
         dest.writeString(movie_overview);
     }

@@ -7,9 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.activity.ComponentActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.culture_reminder.adapters.MovieRecyclerView;
+import com.example.culture_reminder.adapters.OnMovieListener;
 import com.example.culture_reminder.models.MovieModel;
 import com.example.culture_reminder.request.Servicey;
 import com.example.culture_reminder.response.MovieSearchResponse;
@@ -25,7 +30,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieListActivity extends ComponentActivity {
+public class MovieListActivity extends ComponentActivity implements OnMovieListener {
+
+
+
+    private RecyclerView recyclerView;
+    private MovieRecyclerView movieRecyclerAdapter;
 
     private MovieListViewModel movieListViewModel;
 
@@ -43,8 +53,7 @@ public class MovieListActivity extends ComponentActivity {
         setContentView(R.layout.activity_main);
 
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
-        textView = findViewById(R.id.userDetails);
+//        button = findViewById(R.id.logout);
         user = auth.getCurrentUser();
 
         // Uncomment the following lines if you want to handle null user case
@@ -56,29 +65,23 @@ public class MovieListActivity extends ComponentActivity {
         //     textView.setText(user.getEmail());
         // }
 
-        btn = findViewById(R.id.button);
-
         movieListViewModel =new ViewModelProvider(this).get(MovieListViewModel.class);
+        recyclerView = findViewById(R.id.recyclerView);
 
 
+        ConfigureRecyclerView();
+        ObserveAnyChange();
+        searchMovieApi("fast",1);
 
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GetRetrofitResponseAccordingToID();
-            }
-        });
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FirebaseAuth.getInstance().signOut();
+//                Intent intent = new Intent(getApplicationContext(), Login.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
     }
 
 
@@ -87,12 +90,37 @@ public class MovieListActivity extends ComponentActivity {
         movieListViewModel.getMovies().observe(this, new Observer<List<MovieModel>>() {
             @Override
             public void onChanged(List<MovieModel> movieModels) {
+            if(movieModels != null){
+                for(MovieModel movieModel: movieModels){
+                    Log.v("Tag","on Changed: "+movieModel.getTitle());
 
+                    movieRecyclerAdapter.setmMovies(movieModels);
+                }
+            }
             }
         });
     }
+    private void searchMovieApi(String query, int pageNumber){
+        movieListViewModel.searchMovieApi(query,pageNumber);
+    }
 
-    private void GetRetrofitResponse() {
+    private void ConfigureRecyclerView(){
+        movieRecyclerAdapter = new MovieRecyclerView(this);
+        recyclerView.setAdapter(movieRecyclerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onMovieClick(int position) {
+
+    }
+
+    @Override
+    public void onCategoryClick(String category) {
+
+    }
+
+    /*private void GetRetrofitResponse() {
         MovieApi movieApi = Servicey.getMovieApi();
 
         Call<MovieSearchResponse> responseCall = movieApi.searchMovie(
@@ -125,9 +153,9 @@ public class MovieListActivity extends ComponentActivity {
                 Log.v("Tag", "Failed to fetch movies: " + t.getMessage());
             }
         });
-    }
+    }*/
 
-    private void GetRetrofitResponseAccordingToID(){
+   /* private void GetRetrofitResponseAccordingToID(){
         MovieApi movieApi = Servicey.getMovieApi();
         Call<MovieModel> responseCall = movieApi.getMovie(550, Credentials.API_KEY);
 
@@ -151,7 +179,7 @@ public class MovieListActivity extends ComponentActivity {
 
             }
         });
-    }
+    }*/
 
 
 }
